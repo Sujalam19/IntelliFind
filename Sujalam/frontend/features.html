@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Features – IntelliFind</title>
+<style>
+body{font-family:Segoe UI;background:#f5f7fa;margin:0}
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("logo.png") center no-repeat;
+    background-size: 250px;
+    opacity: 0.25;
+    z-index: -1;
+}
+.theme-toggle{
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px;
+  border-radius: 50%;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 9999;
+}
+header{background:#007bff;color:white;padding:40px;text-align:center}
+.container{max-width:1000px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.feature{background:white;padding:25px;border-radius:12px;box-shadow:0 8px 16px rgba(0,0,0,0.1)}
+</style>
+</head>
+<body>
+<header>
+<h1>Features</h1>
+</header>
+
+<div class="container">
+<div class="feature">🤖 AI-based item matching</div>
+<div class="feature">🔐 Secure login via college email</div>
+<div class="feature">📊 Dashboard for users</div>
+<div class="feature">⚡ Fast lost & found reporting</div>
+<div class="feature">📱 Responsive design</div>
+<div class="feature">🧠 NLP-based description similarity</div>
+</div>
+</body>
+</html>

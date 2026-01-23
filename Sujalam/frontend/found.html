@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Report Found Item | IntelliFind</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+:root {
+    --primary: #007bff;
+    --bg: #f8f9fa;
+    --text: #333;
+    --white: #fff;
+}
+
+[data-theme="dark"] {
+    --bg: #121212;
+    --text: #fff;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+}
+
+header {
+    background: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    display: none;
+}
+
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    font-size: 15px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--primary);
+    color: white;
+    margin-top: 50px;
+}
+
+/* CUSTOM MODAL POPUP */
+/* CUSTOM MODAL POPUP */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+}
+.modal-overlay.active {
+    display: flex;
+}
+.modal-box {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+.modal-box h3 {
+    margin: 0 0 15px 0;
+    color: #007bff;
+    font-size: 18px;
+}
+.modal-box p {
+    margin: 0 0 25px 0;
+    color: #666;
+    font-size: 15px;
+}
+.modal-box button {
+    background: #007bff;
+    padding: 12px 30px;
+    font-size: 15px;
+    margin: 0;
+}
+.modal-box button:hover {
+    background: #0056b3;
+}
+
+/* MATCHES LIST STYLING */
+.matches-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 15px 0;
+    text-align: left;
+}
+.match-item {
+    background: #f0f8ff;
+    border-left: 4px solid #007bff;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+.match-item h4 {
+    margin: 0 0 5px 0;
+    color: #007bff;
+    font-size: 14px;
+}
+.match-item p {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+}
+.match-score {
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    border: none;
+    background: white;
+    border-radius: 50%;
+    padding: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 9999;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+</head>
+
+<body data-theme="light">
+
+<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+<header>
+    <h1>Report Found Item</h1>
+    <p>Help return lost items using AI matching 🚀</p>
+</header>
+
+<div class="container">
+<form id="foundForm">
+
+<label>Item Name</label>
+<input type="text" id="item_name" placeholder="e.g. Brown Wallet" required>
+
+<label>Found Date</label>
+<input type="date" id="found_date" required>
+
+<label>Found Time</label>
+<input type="time" id="found_time" required>
+
+<label>Category</label>
+<select id="category" required>
+    <option value="">Select Category</option>
+    <option value="Wallet">Wallet</option>
+    <option value="Bottle">Bottle</option>
+    <option value="Bag">Bag</option>
+    <option value="Phone">Phone</option>
+    <option value="Laptop">Laptop</option>
+</select>
+
+<label>Description</label>
+<textarea id="description" placeholder="Describe the item..." required></textarea>
+
+<label>Submit Item To</label>
+<select id="location" required>
+    <option value="Admin Block">Admin Block</option>
+    <option value="Security Office">Security Office</option>
+    <option value="Library">Library</option>
+    <option value="Hostel Office – Azad Bhavan">Hostel Office – Azad Bhavan</option>
+    <option value="Hostel Office – Tagore Bhavan">Hostel Office – Tagore Bhavan</option>
+</select>
+
+<label>Upload Photo (Required)</label>
+<input type="file" id="found_photo" accept="image/*" required>
+
+<button type="submit">Submit Found Item</button>
+
+</form>
+</div>
+
+<!-- CUSTOM MODAL POPUP -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+        <span class="modal-icon" id="modalIcon">ℹ️</span>
+        <h3 id="modalTitle">Message</h3>
+        <p id="modalMessage">Your message here</p>
+        <div class="matches-list" id="matchesList"></div>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 IntelliFind | AI Lost & Found System</p>
+</footer>
+
+<script>
+// CUSTOM MODAL FUNCTIONS
+function showModal(title, message, icon = "ℹ️", matches = null) {
+    const modal = document.getElementById("modalOverlay");
+    const iconEl = document.getElementById("modalIcon");
+    const titleEl = document.getElementById("modalTitle");
+    const msgEl = document.getElementById("modalMessage");
+    const matchesListEl = document.getElementById("matchesList");
+    
+    if (!modal) {
+        console.error("Modal not found!");
+        return;
+    }
+    
+    if (iconEl) iconEl.textContent = icon;
+    if (titleEl) titleEl.textContent = title;
+    if (msgEl) msgEl.textContent = message;
+    
+    // Clear previous matches
+    if (matchesListEl) {
+        matchesListEl.innerHTML = "";
+        
+        // Display matches if available
+        if (matches && matches.length > 0) {
+            matches.forEach((match, index) => {
+                const matchHtml = `
+                    <div class="match-item">
+                        <h4>Match ${index + 1}: ${match.student_name}</h4>
+                        <p><strong>Item:</strong> ${match.item_name}</p>
+                        <p><strong>Description:</strong> ${match.description}</p>
+                        <p><strong>Email:</strong> ${match.email}</p>
+                        <span class="match-score">Similarity: ${(match.score * 100).toFixed(0)}%</span>
+                    </div>
+                `;
+                matchesListEl.innerHTML += matchHtml;
+            });
+        }
+    }
+    
+    modal.classList.add("active");
+    console.log("Modal shown with:", title, message, icon);
+}
+
+function closeModal() {
+    const modal = document.getElementById("modalOverlay");
+    if (modal) {
+        modal.classList.remove("active");
+    }
+}
+
+// Ensure modal is ready before setting up form listener
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("foundForm");
+    if (!form) {
+        console.error("Form not found!");
+        return;
+    }
+    
+    form.addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const item_name = document.getElementById("item_name").value;
+    const description = document.getElementById("description").value;
+    const category = document.getElementById("category").value;
+    const location = document.getElementById("location").value;
+    const found_date = document.getElementById("found_date").value;
+    const found_time = document.getElementById("found_time").value;
+    const found_photo = document.getElementById("found_photo").files[0];
+
+    console.log("DEBUG 👉", {item_name, description, category, location, found_date, found_time, has_photo: !!found_photo});
+
+    try {
+        // Use FormData to support file upload
+        const formData = new FormData();
+        formData.append("item_name", item_name);
+        formData.append("description", description);
+        formData.append("category", category);
+        formData.append("location", location);
+        formData.append("found_date", found_date);
+        formData.append("found_time", found_time);
+        if (found_photo) {
+            formData.append("found_photo", found_photo);
+        }
+
+        const res = await fetch("http://127.0.0.1:5000/found", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if(res.ok){
+            showModal("Success", "Found item submitted successfully!", "✅");
+            document.getElementById("foundForm").reset();
+
+            if(data.matched && data.matched.length > 0){
+                setTimeout(() => {
+                    showModal("🔥 AI Match Found!", `${data.matched.length} matching lost item(s) found!`, "🔥", data.matched);
+                    console.log("AI MATCH:", data.matched);
+                }, 3500);
+            } else {
+                setTimeout(() => closeModal(), 3500);
+                console.log("No match found.");
+            }
+
+        } else {
+            showModal("Error", data.msg || "Something went wrong", "❌");
+            setTimeout(() => closeModal(), 3500);
+        }
+
+    } catch(err){
+        console.error("Fetch Error:", err);
+        showModal("Connection Error", "Backend is not running!", "❌");
+        setTimeout(() => closeModal(), 3500);
+    }
+    });
+});
+</script>
+
+<script>
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme){
+    document.body.setAttribute("data-theme", savedTheme);
+}
+
+function toggleTheme(){
+    const body = document.body;
+    const theme = body.getAttribute("data-theme") === "light" ? "dark" : "light";
+    body.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+}
+</script>
+
+</body>
+</html>

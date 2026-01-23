@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard – LocateS</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+:root {
+            --primary-color: #007bff;
+            --secondary-color: #ffffff;
+            --accent-color: #e3f2fd;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --shadow: 0 8px 16px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+   
+        [data-theme="dark"] {
+            --primary-color: #0056b3;
+            --secondary-color: #1a1a1a;
+            --accent-color: #0d47a1;
+            --text-color: #e0e0e0;
+            --bg-color: #121212;
+        }
+        body {
+            margin:0;font-family:Segoe UI;background:var(--bg-color);
+            color:var(--text-color);
+        }
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("logo.png") center no-repeat;
+    background-size: 250px;
+    opacity: 0.15;
+    z-index: -1;
+}
+header,footer{
+    background:linear-gradient(135deg,var(--primary-color),#e3f2fd);
+    color:#fff;
+    text-align:center;
+    padding:40px
+}
+.btn{
+    background:#fff;
+    color:var(--primary-color);
+    border:2px solid var(--primary-color);
+    padding:14px 26px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:600;
+}
+section{text-align:center;padding:80px 20px}
+
+.theme-toggle{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px;
+    border-radius: 50%;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
+
+
+</style>
+<script>
+
+if(!localStorage.getItem("collegeEmail")){
+  window.location.href = "login.html";
+}
+</script>
+
+
+
+</head>
+<body data-theme="light">
+<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+<header>
+<h1>Dashboard</h1>
+<p>Select an option</p>
+</header>
+
+<section>
+<a href="lost.html" class="btn">Report Lost Item</a>
+&nbsp;&nbsp;
+<a href="found.html" class="btn">Report Found Item</a>
+</section>
+
+<footer>
+<p>&copy; 2026 IntelliFind</p>
+</footer>
+<script>
+  // APPLY SAVED THEME ON LOAD
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    document.body.setAttribute("data-theme", savedTheme);
+  }
+
+  function toggleTheme() {
+    const body = document.body;
+    const current = body.getAttribute("data-theme");
+    const next = current === "light" ? "dark" : "light";
+    body.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  }
+</script>
+<script src="script.js"></script>
+
+</body>
+</html>
